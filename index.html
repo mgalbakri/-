@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>الفتاوى الشرعية</title>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Noto+Naskh+Arabic:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Noto Naskh Arabic', 'Amiri', serif;
+            background-color: #f8f5f0;
+            color: #2c3e50;
+            min-height: 100vh;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #1a5f4a 0%, #0d3d30 100%);
+            padding: 24px 16px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0L60 30L30 60L0 30L30 0z' fill='%23ffffff' fill-opacity='0.05'/%3E%3C/svg%3E");
+            background-size: 30px 30px;
+        }
+        
+        .header h1 {
+            color: #fff;
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 8px;
+            position: relative;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .header .subtitle {
+            color: #d4af37;
+            font-size: 14px;
+            position: relative;
+        }
+        
+        .bismillah {
+            color: #fff;
+            font-size: 18px;
+            margin-top: 16px;
+            opacity: 0.9;
+            position: relative;
+        }
+        
+        .main {
+            padding: 16px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .input-section {
+            background-color: #fff;
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            margin-bottom: 20px;
+        }
+        
+        .input-section label {
+            display: block;
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 12px;
+            color: #1a5f4a;
+        }
+        
+        .input-section textarea {
+            width: 100%;
+            padding: 14px;
+            font-size: 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            resize: none;
+            font-family: inherit;
+            direction: rtl;
+            transition: border-color 0.3s;
+            outline: none;
+        }
+        
+        .input-section textarea:focus {
+            border-color: #1a5f4a;
+        }
+        
+        .btn {
+            width: 100%;
+            padding: 14px 24px;
+            font-size: 18px;
+            font-weight: bold;
+            background-color: #1a5f4a;
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            margin-top: 12px;
+            cursor: pointer;
+            font-family: inherit;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 10px rgba(26,95,74,0.3);
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(26,95,74,0.4);
+        }
+        
+        .btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+        
+        .error {
+            background-color: #fff5f5;
+            color: #c53030;
+            padding: 12px 16px;
+            border-radius: 10px;
+            margin-bottom: 16px;
+            display: none;
+            align-items: center;
+            gap: 8px;
+            border: 1px solid #feb2b2;
+        }
+        
+        .question-display {
+            background-color: #fff;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            border-right: 4px solid #d4af37;
+        }
+        
+        .question-display .icon {
+            font-size: 24px;
+        }
+        
+        .question-display .text {
+            font-size: 16px;
+            line-height: 1.8;
+        }
+        
+        .madhhab-card {
+            background-color: #fff;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            border: 2px solid;
+            margin-bottom: 16px;
+        }
+        
+        .madhhab-header {
+            padding: 16px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .madhhab-title-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .madhhab-icon {
+            font-size: 28px;
+        }
+        
+        .madhhab-name {
+            color: #fff;
+            font-size: 18px;
+            font-weight: bold;
+            margin: 0;
+        }
+        
+        .founder-name {
+            color: rgba(255,255,255,0.8);
+            font-size: 12px;
+            margin: 4px 0 0 0;
+        }
+        
+        .expand-icon {
+            color: #fff;
+            font-size: 14px;
+            transition: transform 0.3s;
+        }
+        
+        .ruling-badge {
+            padding: 12px 16px;
+            border-bottom: 2px solid;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        
+        .ruling-label {
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .ruling-text {
+            font-size: 16px;
+            font-weight: bold;
+        }
+        
+        .expanded-content {
+            padding: 16px;
+            display: none;
+        }
+        
+        .expanded-content.show {
+            display: block;
+        }
+        
+        .section {
+            margin-bottom: 16px;
+        }
+        
+        .section-title {
+            font-size: 15px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 8px;
+        }
+        
+        .section-text {
+            font-size: 15px;
+            line-height: 1.9;
+            color: #4a5568;
+        }
+        
+        .evidence-box {
+            padding: 14px;
+            border-radius: 10px;
+            border-right: 4px solid;
+        }
+        
+        .evidence-title {
+            font-size: 14px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 8px;
+        }
+        
+        .evidence-text {
+            font-size: 14px;
+            line-height: 1.8;
+            color: #4a5568;
+            font-style: italic;
+        }
+        
+        .consensus-box {
+            background-color: #e8f5e9;
+            border-radius: 12px;
+            padding: 16px;
+            margin-top: 20px;
+            border-right: 4px solid #4caf50;
+        }
+        
+        .consensus-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #2e7d32;
+            margin-bottom: 8px;
+        }
+        
+        .consensus-text {
+            font-size: 15px;
+            line-height: 1.8;
+            color: #4a5568;
+        }
+        
+        .note-box {
+            background-color: #fff8e1;
+            border-radius: 12px;
+            padding: 16px;
+            margin-top: 16px;
+            border-right: 4px solid #ffc107;
+        }
+        
+        .note-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #f57c00;
+            margin-bottom: 8px;
+        }
+        
+        .note-text {
+            font-size: 15px;
+            line-height: 1.8;
+            color: #4a5568;
+        }
+        
+        .disclaimer {
+            background-color: #fafafa;
+            border-radius: 10px;
+            padding: 14px;
+            margin-top: 24px;
+            text-align: center;
+            font-size: 13px;
+            color: #718096;
+            border: 1px dashed #cbd5e0;
+        }
+        
+        .footer {
+            background-color: #1a5f4a;
+            color: rgba(255,255,255,0.8);
+            text-align: center;
+            padding: 16px;
+            font-size: 14px;
+            margin-top: 24px;
+        }
+        
+        /* Madhhab Colors */
+        .hanafi { border-color: #1a5f4a; }
+        .hanafi .madhhab-header { background-color: #1a5f4a; }
+        .hanafi .ruling-badge { background-color: #e8f5f1; border-color: #2d8a6e; }
+        .hanafi .ruling-text { color: #1a5f4a; }
+        .hanafi .evidence-box { background-color: #e8f5f1; border-right-color: #1a5f4a; }
+        
+        .maliki { border-color: #8b4513; }
+        .maliki .madhhab-header { background-color: #8b4513; }
+        .maliki .ruling-badge { background-color: #fdf5e6; border-color: #a0522d; }
+        .maliki .ruling-text { color: #8b4513; }
+        .maliki .evidence-box { background-color: #fdf5e6; border-right-color: #8b4513; }
+        
+        .shafii { border-color: #1e3a5f; }
+        .shafii .madhhab-header { background-color: #1e3a5f; }
+        .shafii .ruling-badge { background-color: #e8f0f8; border-color: #2c5282; }
+        .shafii .ruling-text { color: #1e3a5f; }
+        .shafii .evidence-box { background-color: #e8f0f8; border-right-color: #1e3a5f; }
+        
+        .hanbali { border-color: #5c4033; }
+        .hanbali .madhhab-header { background-color: #5c4033; }
+        .hanbali .ruling-badge { background-color: #f5efe8; border-color: #7a5a45; }
+        .hanbali .ruling-text { color: #5c4033; }
+        .hanbali .evidence-box { background-color: #f5efe8; border-right-color: #5c4033; }
+        
+        .loading {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .spinner {
+            animation: spin 1s linear infinite;
+            display: inline-block;
+        }
+        
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        .results-section {
+            display: none;
+        }
+        
+        .results-section.show {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <h1>الفتاوى الشرعية</h1>
+        <p class="subtitle">إجابات من المذاهب السنية الأربعة</p>
+        <div class="bismillah">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</div>
+    </header>
+
+    <main class="main">
+        <div class="input-section">
+            <label>اطرح سؤالك الشرعي</label>
+            <textarea id="question" placeholder="مثال: ما حكم صلاة الجماعة؟ أو ما هي شروط الزكاة؟" rows="4"></textarea>
+            <button class="btn" id="askBtn" onclick="askFatwa()">🔍 استفتِ</button>
+        </div>
+
+        <div class="error" id="error">
+            <span>⚠️</span> <span id="errorText"></span>
+        </div>
+
+        <div class="results-section" id="results">
+            <div class="question-display">
+                <span class="icon">❓</span>
+                <span class="text" id="questionText"></span>
+            </div>
+
+            <!-- Hanafi -->
+            <div class="madhhab-card hanafi">
+                <div class="madhhab-header" onclick="toggleMadhhab('hanafi')">
+                    <div class="madhhab-title-row">
+                        <span class="madhhab-icon">🕌</span>
+                        <div>
+                            <h3 class="madhhab-name">المذهب الحنفي</h3>
+                            <p class="founder-name">الإمام أبو حنيفة النعمان</p>
+                        </div>
+                    </div>
+                    <span class="expand-icon" id="hanafi-icon">▼</span>
+                </div>
+                <div class="ruling-badge">
+                    <span class="ruling-label">الحكم:</span>
+                    <span class="ruling-text" id="hanafi-ruling"></span>
+                </div>
+                <div class="expanded-content" id="hanafi-content">
+                    <div class="section">
+                        <h4 class="section-title">📜 الشرح والتفصيل</h4>
+                        <p class="section-text" id="hanafi-explanation"></p>
+                    </div>
+                    <div class="evidence-box">
+                        <h4 class="evidence-title">📖 الدليل</h4>
+                        <p class="evidence-text" id="hanafi-evidence"></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Maliki -->
+            <div class="madhhab-card maliki">
+                <div class="madhhab-header" onclick="toggleMadhhab('maliki')">
+                    <div class="madhhab-title-row">
+                        <span class="madhhab-icon">📿</span>
+                        <div>
+                            <h3 class="madhhab-name">المذهب المالكي</h3>
+                            <p class="founder-name">الإمام مالك بن أنس</p>
+                        </div>
+                    </div>
+                    <span class="expand-icon" id="maliki-icon">▼</span>
+                </div>
+                <div class="ruling-badge">
+                    <span class="ruling-label">الحكم:</span>
+                    <span class="ruling-text" id="maliki-ruling"></span>
+                </div>
+                <div class="expanded-content" id="maliki-content">
+                    <div class="section">
+                        <h4 class="section-title">📜 الشرح والتفصيل</h4>
+                        <p class="section-text" id="maliki-explanation"></p>
+                    </div>
+                    <div class="evidence-box">
+                        <h4 class="evidence-title">📖 الدليل</h4>
+                        <p class="evidence-text" id="maliki-evidence"></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Shafii -->
+            <div class="madhhab-card shafii">
+                <div class="madhhab-header" onclick="toggleMadhhab('shafii')">
+                    <div class="madhhab-title-row">
+                        <span class="madhhab-icon">📖</span>
+                        <div>
+                            <h3 class="madhhab-name">المذهب الشافعي</h3>
+                            <p class="founder-name">الإمام محمد بن إدريس الشافعي</p>
+                        </div>
+                    </div>
+                    <span class="expand-icon" id="shafii-icon">▼</span>
+                </div>
+                <div class="ruling-badge">
+                    <span class="ruling-label">الحكم:</span>
+                    <span class="ruling-text" id="shafii-ruling"></span>
+                </div>
+                <div class="expanded-content" id="shafii-content">
+                    <div class="section">
+                        <h4 class="section-title">📜 الشرح والتفصيل</h4>
+                        <p class="section-text" id="shafii-explanation"></p>
+                    </div>
+                    <div class="evidence-box">
+                        <h4 class="evidence-title">📖 الدليل</h4>
+                        <p class="evidence-text" id="shafii-evidence"></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Hanbali -->
+            <div class="madhhab-card hanbali">
+                <div class="madhhab-header" onclick="toggleMadhhab('hanbali')">
+                    <div class="madhhab-title-row">
+                        <span class="madhhab-icon">🌙</span>
+                        <div>
+                            <h3 class="madhhab-name">المذهب الحنبلي</h3>
+                            <p class="founder-name">الإمام أحمد بن حنبل</p>
+                        </div>
+                    </div>
+                    <span class="expand-icon" id="hanbali-icon">▼</span>
+                </div>
+                <div class="ruling-badge">
+                    <span class="ruling-label">الحكم:</span>
+                    <span class="ruling-text" id="hanbali-ruling"></span>
+                </div>
+                <div class="expanded-content" id="hanbali-content">
+                    <div class="section">
+                        <h4 class="section-title">📜 الشرح والتفصيل</h4>
+                        <p class="section-text" id="hanbali-explanation"></p>
+                    </div>
+                    <div class="evidence-box">
+                        <h4 class="evidence-title">📖 الدليل</h4>
+                        <p class="evidence-text" id="hanbali-evidence"></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="consensus-box" id="consensus-box">
+                <h3 class="consensus-title">🤝 نقاط الاتفاق</h3>
+                <p class="consensus-text" id="consensus-text"></p>
+            </div>
+
+            <div class="note-box" id="note-box">
+                <h3 class="note-title">💡 ملاحظة</h3>
+                <p class="note-text" id="note-text"></p>
+            </div>
+        </div>
+
+        <div class="disclaimer">
+            <p>⚠️ هذا التطبيق للإرشاد العام فقط. للمسائل الخاصة، يُرجى الرجوع إلى أهل العلم المتخصصين.</p>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>وَمَا أُوتِيتُم مِّنَ الْعِلْمِ إِلَّا قَلِيلًا</p>
+    </footer>
+
+    <script>
+        let expandedMadhhab = null;
+
+        function toggleMadhhab(madhhab) {
+            const content = document.getElementById(madhhab + '-content');
+            const icon = document.getElementById(madhhab + '-icon');
+            
+            if (expandedMadhhab === madhhab) {
+                content.classList.remove('show');
+                icon.textContent = '▼';
+                expandedMadhhab = null;
+            } else {
+                // Close previously expanded
+                if (expandedMadhhab) {
+                    document.getElementById(expandedMadhhab + '-content').classList.remove('show');
+                    document.getElementById(expandedMadhhab + '-icon').textContent = '▼';
+                }
+                content.classList.add('show');
+                icon.textContent = '▲';
+                expandedMadhhab = madhhab;
+            }
+        }
+
+        async function askFatwa() {
+            const question = document.getElementById('question').value.trim();
+            const btn = document.getElementById('askBtn');
+            const error = document.getElementById('error');
+            const results = document.getElementById('results');
+
+            if (!question) {
+                error.style.display = 'flex';
+                document.getElementById('errorText').textContent = 'الرجاء إدخال سؤالك';
+                return;
+            }
+
+            error.style.display = 'none';
+            results.classList.remove('show');
+            btn.disabled = true;
+            btn.innerHTML = '<span class="loading"><span class="spinner">⏳</span> جاري البحث في كتب الفقه...</span>';
+
+            try {
+                const response = await fetch('https://api.anthropic.com/v1/messages', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        model: 'claude-sonnet-4-20250514',
+                        max_tokens: 4000,
+                        messages: [{
+                            role: 'user',
+                            content: `أنت عالم فقه إسلامي متخصص في المذاهب الأربعة. أجب عن السؤال التالي بالتفصيل من منظور كل مذهب من المذاهب السنية الأربعة.
+
+السؤال: ${question}
+
+أجب بصيغة JSON فقط بدون أي نص إضافي، بالشكل التالي:
+{
+  "question": "السؤال المطروح",
+  "hanafi": {
+    "ruling": "الحكم الشرعي",
+    "explanation": "الشرح والتفصيل مع الأدلة",
+    "evidence": "الدليل من القرآن أو السنة"
+  },
+  "maliki": {
+    "ruling": "الحكم الشرعي",
+    "explanation": "الشرح والتفصيل مع الأدلة",
+    "evidence": "الدليل من القرآن أو السنة"
+  },
+  "shafii": {
+    "ruling": "الحكم الشرعي",
+    "explanation": "الشرح والتفصيل مع الأدلة",
+    "evidence": "الدليل من القرآن أو السنة"
+  },
+  "hanbali": {
+    "ruling": "الحكم الشرعي",
+    "explanation": "الشرح والتفصيل مع الأدلة",
+    "evidence": "الدليل من القرآن أو السنة"
+  },
+  "consensus": "نقاط الاتفاق بين المذاهب إن وجدت",
+  "note": "ملاحظة عامة أو نصيحة"
+}`
+                        }]
+                    })
+                });
+
+                const data = await response.json();
+                const text = data.content.map(item => item.text || '').join('');
+                const cleanJson = text.replace(/```json|```/g, '').trim();
+                const fatwa = JSON.parse(cleanJson);
+
+                // Update UI
+                document.getElementById('questionText').textContent = fatwa.question;
+
+                ['hanafi', 'maliki', 'shafii', 'hanbali'].forEach(m => {
+                    document.getElementById(m + '-ruling').textContent = fatwa[m]?.ruling || '';
+                    document.getElementById(m + '-explanation').textContent = fatwa[m]?.explanation || '';
+                    document.getElementById(m + '-evidence').textContent = fatwa[m]?.evidence || '';
+                });
+
+                if (fatwa.consensus) {
+                    document.getElementById('consensus-text').textContent = fatwa.consensus;
+                    document.getElementById('consensus-box').style.display = 'block';
+                } else {
+                    document.getElementById('consensus-box').style.display = 'none';
+                }
+
+                if (fatwa.note) {
+                    document.getElementById('note-text').textContent = fatwa.note;
+                    document.getElementById('note-box').style.display = 'block';
+                } else {
+                    document.getElementById('note-box').style.display = 'none';
+                }
+
+                results.classList.add('show');
+                expandedMadhhab = null;
+
+            } catch (err) {
+                error.style.display = 'flex';
+                document.getElementById('errorText').textContent = 'حدث خطأ في جلب الفتوى. الرجاء المحاولة مرة أخرى.';
+                console.error(err);
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = '🔍 استفتِ';
+            }
+        }
+
+        // Demo data for preview
+        function loadDemoData() {
+            const demoFatwa = {
+                question: "ما حكم صلاة الجماعة للرجال؟",
+                hanafi: {
+                    ruling: "سنة مؤكدة",
+                    explanation: "صلاة الجماعة سنة مؤكدة عند الحنفية، وهي قريبة من الواجب في التأكيد، ويأثم تاركها من غير عذر إثماً يسيراً. والجماعة أفضل من صلاة الفرد بسبع وعشرين درجة.",
+                    evidence: "قال النبي ﷺ: «صلاة الجماعة أفضل من صلاة الفذ بسبع وعشرين درجة» متفق عليه"
+                },
+                maliki: {
+                    ruling: "سنة مؤكدة",
+                    explanation: "المالكية يرون أن صلاة الجماعة سنة مؤكدة للصلوات الخمس، وهي من شعائر الإسلام الظاهرة. ويُكره للرجل القادر أن يتخلف عنها بلا عذر.",
+                    evidence: "قال النبي ﷺ: «صلاة الرجل في جماعة تضعف على صلاته في بيته وفي سوقه خمساً وعشرين ضعفاً» رواه البخاري"
+                },
+                shafii: {
+                    ruling: "فرض كفاية",
+                    explanation: "صلاة الجماعة فرض كفاية عند الشافعية في الصحيح من المذهب، بحيث إذا قام بها البعض سقط الإثم عن الباقين. وهي سنة مؤكدة في حق الأعيان.",
+                    evidence: "قوله تعالى: ﴿وَأَقِيمُوا الصَّلَاةَ وَآتُوا الزَّكَاةَ وَارْكَعُوا مَعَ الرَّاكِعِينَ﴾"
+                },
+                hanbali: {
+                    ruling: "واجبة",
+                    explanation: "صلاة الجماعة واجبة على الرجال عند الحنابلة للصلوات الخمس، وهي آكد الواجبات بعد الفرائض. ويأثم من تركها بلا عذر شرعي معتبر.",
+                    evidence: "حديث أبي هريرة رضي الله عنه أن النبي ﷺ قال: «لقد هممت أن آمر بالصلاة فتقام، ثم آمر رجلاً فيصلي بالناس، ثم أنطلق معي برجال معهم حزم من حطب إلى قوم لا يشهدون الصلاة فأحرق عليهم بيوتهم بالنار» متفق عليه"
+                },
+                consensus: "اتفقت المذاهب الأربعة على فضل صلاة الجماعة وأنها من شعائر الإسلام الظاهرة، وأن تركها من غير عذر مذموم شرعاً.",
+                note: "ينبغي للمسلم الحرص على صلاة الجماعة ما استطاع، فهي من أعظم شعائر الإسلام وأسباب الألفة بين المسلمين."
+            };
+
+            document.getElementById('questionText').textContent = demoFatwa.question;
+            document.getElementById('question').value = demoFatwa.question;
+
+            ['hanafi', 'maliki', 'shafii', 'hanbali'].forEach(m => {
+                document.getElementById(m + '-ruling').textContent = demoFatwa[m].ruling;
+                document.getElementById(m + '-explanation').textContent = demoFatwa[m].explanation;
+                document.getElementById(m + '-evidence').textContent = demoFatwa[m].evidence;
+            });
+
+            document.getElementById('consensus-text').textContent = demoFatwa.consensus;
+            document.getElementById('note-text').textContent = demoFatwa.note;
+            document.getElementById('results').classList.add('show');
+        }
+
+        // Load demo data on page load
+        window.onload = loadDemoData;
+    </script>
+</body>
+</html>
